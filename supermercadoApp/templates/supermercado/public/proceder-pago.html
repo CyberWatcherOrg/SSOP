@@ -1,0 +1,256 @@
+{% load static %}
+<!-- Head bar-->
+{% include 'supermercado/public/general/head.html' %}
+<!-- Head end-->
+<body>
+<div id="all">
+    <!-- Top bar-->
+    {% include 'supermercado/public/general/topbar.html' %}
+    <!-- Top bar end-->
+
+    <!-- Navbar -->
+    {% include 'supermercado/public/general/navbar.html' %}
+    <!-- Navbar End-->
+    <div id="heading-breadcrumbs">
+        <div class="container">
+            <div class="row d-flex align-items-center flex-wrap">
+                <div class="col-md-7">
+                    <h1 class="h2">Realizar la compra</h1>
+                </div>
+                <div class="col-md-5">
+                    <ul class="breadcrumb d-flex justify-content-end">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'cli_carrito' %}">Carrito</a></li>
+                        <li class="breadcrumb-item active">Realizar la compra</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="content">
+        <div class="container">
+            <div class="row bar">
+                <div class="col-lg-12">
+                    {% if carrito|length == 1 %}
+                        <p class="text-muted lead">Actualmente tienes {{ carrito|length }} elemento en tu carrito de
+                            compra.</p>
+                    {% elif carrito|length == 0 %}
+                        <p class="text-muted lead">Actualmente tienes {{ carrito|length }} elementos en tu carrito de
+                            compra.&nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'cli_tienda' %}"
+                                                              class="btn btn-outline-secondary"><i
+                                    class="fa fa-chevron-left"></i> Continua comprando</a></p>
+                    {% else %}
+                        <p class="text-muted lead">Actualmente tienes {{ carrito|length }} elementos en tu carrito de
+                            compra.</p>
+                    {% endif %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <br>
+                            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                <div class="alert alert-error" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% else %}
+                                <div class="alert alert-success" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                {% if carrito|length != 0 %}
+                    <div id="basket" class="col-lg-9">
+                        <div class="box mt-0 pb-0 no-horizontal-padding">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="2">Producto</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio Unitario</th>
+                                        <th></th>
+                                        <th colspan="2">Total</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for producto in carrito %}
+                                        <tr>
+                                            <td><a href="{% url 'cli_producto_detalle' producto.producto.id %}"><img
+                                                    src="{% static 'supermercado/img/' %}{{ producto.producto.imagen }}"
+                                                    alt={{ producto.producto.nombre }} class="img-fluid"></a></td>
+                                            <td>
+                                                <a href="{% url 'cli_producto_detalle' producto.producto.id %}">{{ producto.producto.nombre }}</a>
+                                            </td>
+                                            <td>
+                                                <form action="{% url 'cli_producto_carrito_update' producto.id producto.carrito.id %}"
+                                                      method="post">
+                                                    {% csrf_token %}
+                                                    <div class="input-group">
+                                                        {{ producto.cantidad }}
+                                                    </div>
+                                                </form>
+                                            </td>
+                                            {% if tarjeta and producto.producto.pvp_socio != 0 %}
+                                                <td>{{ producto.producto.pvp_socio|floatformat:2 }} €</td>
+                                            {% elif tarjeta and producto.producto.pvp_socio == 0 %}
+                                                <td>{{ producto.producto.pvp|floatformat:2 }} €</td>
+                                                {% else %}
+                                                 <td>{{ producto.producto.pvp|floatformat:2 }} €</td>
+                                            {% endif %}
+                                            <td></td>
+                                            <td>{{ producto.importe_total|floatformat:2 }} €</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th colspan="5">Total</th>
+                                        <th colspan="2">{{ sumatotal|floatformat:2 }} €</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-3">
+                        <div id="order-summary" class="box mt-0 mb-4 p-0">
+                            <div class="box-header mt-0 text-center">
+                                <h3>Resumen de tu compra</h3>
+                            </div>
+                            <p class="text-muted text-justify">Los precios de los productos variaran en funcion del
+                                producto y también si tienes tarjeta
+                                socio.</p>
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tbody>
+                                    <tr>
+                                        <td>Order subtotal</td>
+                                        <th>{{ sumatotal|floatformat:2 }} €</th>
+                                    </tr>
+                                    {% if tarjeta and request.session.cli_descontar == 1%}
+                                        <tr>
+                                            <td>Descuento Socio</td>
+                                            <th>- {{ request.session.saldo_descontar|floatformat:2 }} €</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Subtotal</td>
+                                            <th>{{ subtotal|floatformat:2 }} €</th>
+                                        </tr>
+                                    {% endif %}
+                                    <tr>
+                                        <td>IVA</td>
+                                        <th>{{ tasa|floatformat:2 }} %</th>
+                                    </tr>
+                                    <tr class="total">
+                                        <td>Total</td>
+                                        <th>{{ totalCompra|floatformat:2 }} €</th>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!--- ----------------------------------------------------- -->
+                <div class="col-lg-12">
+                    <hr>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                    {% endif %}
+                    <span id="payment-errors"></span>
+                    <div class="panel-heading display-table">
+                        <div class="row display-tr">
+                            <h3 class="panel-title display-td">Payment Details</h3>
+                            <div class="display-td">
+                                <img class="img-responsive pull-right"
+                                     src="{% static 'supermercado/img/public/supermercado/payment.png' %}">
+                            </div>
+                        </div>
+                    </div>
+
+                    <form class="form-horizontal" role="form" id="payment-form" action="{% url 'cli_finCompra' %}"
+                          method="post">
+                        {% csrf_token %}
+                        <legend>Pago de la compra</legend>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label" for="card-number">Número de tarjeta</label>
+                                <div class="col-lg-12">
+                                    <input type="text" class="form-control" name="card-number" id="card-number"
+                                           placeholder="Tarjeta de debito / credito"
+                                           data-inputmask="'mask': '9999 9999 9999 9999'" value="4242 4242 4242 4242">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label" for="expiry-month">Fecha de caducidad</label>
+                                <div class="col-lg-12">
+                                    <select class="form-control" name="expiry-month" id="card-expiry-month">
+                                        <option disabled>Selecciona el mes</option>
+                                        <option value="01">Enero</option>
+                                        <option value="02">Febrero</option>
+                                        <option value="03">Marzo</option>
+                                        <option value="04">Abril</option>
+                                        <option value="05">Mayo</option>
+                                        <option value="06">Junio</option>
+                                        <option value="07">Julio</option>
+                                        <option value="08">Agosto</option>
+                                        <option value="09">Septiembre</option>
+                                        <option value="10">Octubre</option>
+                                        <option value="11">Noviembre</option>
+                                        <option value="12">Diciembre</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <select class="form-control" name="card-expiry-year" id="card-expiry-year">
+                                        <option disabled>Selecciona el año</option>
+                                        <option value="18">2018</option>
+                                        <option value="19">2019</option>
+                                        <option value="20">2020</option>
+                                        <option value="21">2021</option>
+                                        <option value="22">2022</option>
+                                        <option value="23">2023</option>
+                                        <option value="24">2024</option>
+                                        <option value="25">2025</option>
+                                        <option value="26">2026</option>
+                                        <option value="27">2027</option>
+                                        <option value="28">2028</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <label class="control-label" for="cvv">Número CCV</label>
+                                <div class="col-lg-12">
+                                    <input type="text" class="form-control" name="cvv" id="card-cvc"
+                                           placeholder="Código de seguridad">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-lg-12">
+                                    <button type="submit" class="btn btn-success" id="submit-button">Pagar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!----------------------------------------------------------- -->
+</div>
+
+
+{% include 'supermercado/public/general/footer.html' %}

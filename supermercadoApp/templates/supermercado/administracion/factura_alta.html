@@ -1,0 +1,107 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load static %}
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+{% include 'supermercado/administracion/general/head.html' %}
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <!-- Main Header -->
+    {% include 'supermercado/administracion/general/header.html' %}
+    <!-- Left side column. contains the logo and sidebar -->
+    {% include 'supermercado/administracion/general/menu_izquierdo.html' %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+               Facturas de compras de clientes
+                <small>Administración facturas de compra</small>
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+            <div class="box box-success">
+                <form action="{% url 'generar_facturas' %}" method="post">
+                    {% csrf_token %}
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Nueva Factura </h3>
+                        <a href="{% url 'facturas' %}" class="btn btn-primary" style="float: right;margin-right: 20px;">Volver atras</a>
+                        <button type="submit" class="btn btn-success" style="float: right;margin-right: 20px">Generar Factura</button>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <label>{{ form.fecha.label }}</label>
+                                {% render_field form.fecha class="form-control" %}
+                            </div>
+                            <div class="col-lg-4">
+                                <label>{{ form.carrito.label }}</label>
+                                {% render_field form.carrito class="form-control" %}
+                            </div>
+                            <div class="col-lg-4">
+                                <label>{{ form.impuesto.label }}</label>
+                                {% render_field form.impuesto class="form-control" %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <br>
+                                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                        <div class="alert alert-error" role="alert">
+                                            {{ message }}
+                                        </div>
+                                        {% else %}
+                                        <div class="alert alert-success" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Main Footer -->
+{% include 'supermercado/administracion/general/footer.html' %}
+
+<!-- Control Sidebar -->
+{% include 'supermercado/administracion/general/menu_derecho.html' %}
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+
+{% include 'supermercado/administracion/general/required_js.html' %}

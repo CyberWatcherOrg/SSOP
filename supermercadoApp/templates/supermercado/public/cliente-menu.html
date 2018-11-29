@@ -1,0 +1,105 @@
+{% load static %}
+{% load widget_tweaks %}
+<!-- Head bar-->
+{% include 'supermercado/public/general/head.html' %}
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+<!-- Head end-->
+<body>
+<div id="all">
+    <!-- Top bar-->
+    {% include 'supermercado/public/general/topbar.html' %}
+    <!-- Top bar end-->
+
+    <!-- Navbar -->
+    {% include 'supermercado/public/general/navbar.html' %}
+    <!-- Navbar End-->
+
+    <div id="heading-breadcrumbs">
+        <div class="container">
+            <div class="row d-flex align-items-center flex-wrap">
+                <div class="col-md-7">
+                    <h1 class="h2">Mi Perfil</h1>
+                </div>
+                <div class="col-md-5">
+                    <ul class="breadcrumb d-flex justify-content-end">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
+                        <li class="breadcrumb-item active">Mi Perfil</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="content">
+        <div class="container">
+            <div class="row bar mb-0">
+                <div id="customer-orders" class="col-md-9">
+                 {% if facturas %}
+                    <p class="text-muted lead">Aquí están todas tus facturas disponibles para ti.</p>
+                    <span class="text-muted">Si tienes alguna duda, sientete libre de ponerte en <a
+                            href="{% url 'cli_contacto' %}">contacto</a> con nosotros.</span>
+                        <div class="box mt-0 mb-lg-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th>Factura</th>
+                                    <th>Fecha</th>
+                                    <th>Total</th>
+                                    <th class="text-center">Compra con Tarjeta Socio</th>
+                                    <th>Acción</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for factura in facturas %}
+                                    <tr>
+                                        <th># {{ factura.codigo }}</th>
+                                        <td>{{ factura.fecha| date:'d/m/Y' }} - {{ factura.fecha|time:"H:i:s" }}</td>
+                                        <td>{{ factura.importe_total|floatformat:2 }}</td>
+                                        {% if factura.cli_socio == 1 %}
+                                            <td class="text-center"><span
+                                                    class="badge badge-info">Con tarjeta Socio</span></td>
+                                        {% else %}
+                                            <td class="text-center"><span
+                                                    class="badge badge-warning">Sin tarjeta Socio</span></td>
+                                        {% endif %}
+                                        <td><a href="{% url 'facturaPDF' factura.id %}"
+                                               class="btn btn-template-outlined btn-sm">Descargar</a></td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                     {% else %}
+                     <p class="text-muted lead">Todavia no tienes facturas. <a href="{% url 'cli_tienda'%}">Empieza tu compra ahora</a> ;-)!</p>
+                    <span class="text-muted">Si tienes alguna duda, sientete libre de ponerte en <a
+                            href="{% url 'cli_contacto' %}">contacto</a> con nosotros.</span>
+                     <div class="box mt-0 mb-lg-0">
+                        <div class="table-responsive">
+                        </div>
+
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="col-md-3 mt-4 mt-md-0">
+                    <!-- CUSTOMER MENU -->
+                    <div class="panel panel-default sidebar-menu">
+                        <div class="panel-heading">
+                            <h3 class="h4 panel-title">Opciones</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="nav nav-pills flex-column text-sm">
+                                <li class="nav-item"><a href="{% url 'cli_menu' %}" class="nav-link active"><i
+                                        class="fa fa-list"></i> Mis Facturas</a></li>
+                                <li class="nav-item"><a href="{% url 'cli_view_edit' %}" class="nav-link"><i
+                                        class="fa fa-user"></i> Mis datos</a></li>
+                                <li class="nav-item"><a href="{% url 'logout_cli' %}" class="nav-link"><i
+                                        class="fa fa-sign-out"></i> Salir</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% include 'supermercado/public/general/footer.html' %}

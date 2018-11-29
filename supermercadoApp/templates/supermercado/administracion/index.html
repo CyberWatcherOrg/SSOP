@@ -1,0 +1,201 @@
+{% load static %}
+{% include 'supermercado/administracion/general/head.html' %}
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <!-- Main Header -->
+    {% include 'supermercado/administracion/general/header.html' %}
+    <!-- Left side column. contains the logo and sidebar -->
+    {% include 'supermercado/administracion/general/menu_izquierdo.html' %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Page Header
+                <small>Optional description</small>
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+
+            <!--------------------------
+              | Your Page Content Here |
+              -------------------------->
+            <div class="row">
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-aqua">
+                        <div class="inner">
+                            <h3>{{ carritosNuevos }}</h3>
+
+                            <p>Carritos sin confirmar</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-shopping-cart"></i>
+                        </div>
+                        <a href="{% url 'carritos' %}" class="small-box-footer">
+                            Más Información<i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3>{{ carritosConfirmados }}</h3>
+
+                            <p>Carritos confirmados</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-shopping-cart"></i>
+                        </div>
+                        <a href="{% url 'carritos' %}" class="small-box-footer">
+                            Más Información <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3>{{ clientes|length }}</h3>
+
+                            <p>Clientes registrados</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-person-add"></i>
+                        </div>
+                        <a href="{% url 'clientes' %}" class="small-box-footer">
+                            Más Información <i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <div class="small-box bg-red">
+                        <div class="inner">
+                            <h3>{{ opiniones|length }}</h3>
+
+                            <p>Opiniones en productos</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-comments-o"></i>
+                        </div>
+                        <a href="{% url 'opiniones' %}" class="small-box-footer">
+                            Más Información<i class="fa fa-arrow-circle-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box bg-green">
+                        <span class="info-box-icon"><i class="fa fa-thumbs-up"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Opiniones Aceptadas</span>
+                            <span class="info-box-number">{{ opinionesAceptadas|length }}</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box bg-red">
+                        <span class="info-box-icon"><i class="fa fa-thumbs-down"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Opiniones rechazadas</span>
+                            <span class="info-box-number">{{ opinionesRechazadas|length }}</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box bg-info">
+                        <span class="info-box-icon"><i class="fa fa-hand-paper-o"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Opiniones en espera</span>
+                            <span class="info-box-number">{{ opinionesEnEspera|length }}</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                    <div class="info-box bg-info">
+                        <span class="info-box-icon"><i class="fa fa-envelope"></i></span>
+
+                        <div class="info-box-content">
+                            <span class="info-box-text">Mensajes en Inbox</span>
+                            <span class="info-box-number">{{ mensajesEnInbox }}</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            </div>
+            <div class="row">
+                <div id="donutchart" style="width: 700px; height: 500px;"></div>
+            </div>
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+    <!-- Main Footer -->
+    {% include 'supermercado/administracion/general/footer.html' %}
+
+    <!-- Control Sidebar -->
+    {% include 'supermercado/administracion/general/menu_derecho.html' %}
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Task', 'Hours per Day'],
+            {% for producto in productos %}
+                ['{{ producto.nombre }}', {{ producto.stock}}],
+            {% endfor %}
+        ]);
+
+        var options = {
+          title: 'Stock de productos en almacen',
+          pieHole: 0.1,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+        chart.draw(data, options);
+      }
+    </script>
+{% include 'supermercado/administracion/general/required_js.html' %}

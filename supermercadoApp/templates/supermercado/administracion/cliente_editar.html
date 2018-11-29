@@ -1,0 +1,176 @@
+{% load static %}
+{% load widget_tweaks %}
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+{% include 'supermercado/administracion/general/head.html' %}
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <!-- Main Header -->
+    {% include 'supermercado/administracion/general/header.html' %}
+    <!-- Left side column. contains the logo and sidebar -->
+    {% include 'supermercado/administracion/general/menu_izquierdo.html' %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Clientes
+                <small>Administración clientes</small>
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+            <div class="box box-success">
+                <form action="{% url 'edit_cliente' id_usuario %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Editar Cliente {{ cliente }} | Nombre de usuario: {{ username }}</h3>
+                        <a href="{% url 'clientes' %}" class="btn btn-primary"
+                           style="float: right;margin-right: 20px; margin-left: 20px">Volver atras</a>
+                        <a href="{% url 'add_tarjeta_cliente' id_cliente %}" class="btn btn-info"
+                           style="float: right">Darle una tarjeta socio al cliente </a>
+                        <button type="submit" class="btn btn-success" style="float: right;margin-right: 20px">Editar
+                            Cliente
+                        </button>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <label>{{ form.nombre.label }}</label>
+                                {% render_field form.nombre class="form-control" %}
+                            </div>
+                            <div class="col-lg-2">
+                                <label>{{ form.apellidos.label }}</label>
+                                {% render_field form.apellidos class="form-control" %}
+                            </div>
+                            <div class="col-lg-3">
+                                <label>{{ form.email.label }}</label>
+                                {% render_field form.email class="form-control" %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <label>{{ formUser.password.label }}</label>
+                                {% render_field formUser.password class="form-control" placeholder="*********" %}
+                            </div>
+                            <div class="col-lg-4">
+                                <label>{{ form.image.label }}</label>
+                                {% render_field form.image class="form-control" %}
+                            </div>
+                            <div class="col-lg-4">
+                                <label>{{ form.is_superuser.label }}</label><br>
+                                {% render_field form.is_superuser %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-1">
+                                <label>{{ form.tipo_via.label }}</label>
+                                {% render_field form.tipo_via class="form-control" %}
+                            </div>
+                            <div class="col-lg-5">
+                                <label>{{ form.direccion.label }}</label>
+                                {% render_field form.direccion class="form-control" %}
+                            </div>
+                            <div class="col-lg-1">
+                                <label>{{ form.portal.label }}</label>
+                                {% render_field form.portal class="form-control" %}
+                            </div>
+                            <div class="col-lg-1">
+                                <label>{{ form.escalera.label }}</label>
+                                {% render_field form.escalera class="form-control" %}
+                            </div>
+                            <div class="col-lg-1">
+                                <label>{{ form.piso.label }}</label>
+                                {% render_field form.piso class="form-control" %}
+                            </div>
+                            <div class="col-lg-1">
+                                <label>{{ form.casa.label }}</label>
+                                {% render_field form.casa class="form-control" %}
+                            </div>
+                            <div class="col-lg-1">
+                                <label>{{ form.cp.label }}</label>
+                                {% render_field form.cp class="form-control" %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <label>{{ form.localidad.label }}</label>
+                                {% render_field form.localidad class="form-control" %}
+                            </div>
+                            <div class="col-lg-4">
+                                <label>{{ form.provincia.label }}</label>
+                                {% render_field form.provincia class="form-control" %}
+                            </div>
+                            <div class="col-lg-2">
+                                <label>{{ form.telefono1.label }}</label>
+                                {% render_field form.telefono1 class="form-control" %}
+                            </div>
+                            <div class="col-lg-2">
+                                <label>{{ form.telefono2.label }}</label>
+                                {% render_field form.telefono2 class="form-control" %}
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            {% if messages %}
+                                {% for message in messages %}
+                                    <br>
+                                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                        <div class="alert alert-error" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% else %}
+                                        <div class="alert alert-success" role="alert">
+                                            {{ message }}
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+
+            <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Main Footer -->
+{% include 'supermercado/administracion/general/footer.html' %}
+
+<!-- Control Sidebar -->
+{% include 'supermercado/administracion/general/menu_derecho.html' %}
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+
+{% include 'supermercado/administracion/general/required_js.html' %}

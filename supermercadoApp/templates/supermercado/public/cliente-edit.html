@@ -1,0 +1,163 @@
+{% load static %}
+{% load widget_tweaks %}
+<!-- Head bar-->
+{% include 'supermercado/public/general/head.html' %}
+<!-- Head end-->
+<body>
+<div id="all">
+    <!-- Top bar-->
+    {% include 'supermercado/public/general/topbar.html' %}
+    <!-- Top bar end-->
+
+    <!-- Navbar -->
+    {% include 'supermercado/public/general/navbar.html' %}
+    <!-- Navbar End-->
+
+    <div id="heading-breadcrumbs">
+        <div class="container">
+            <div class="row d-flex align-items-center flex-wrap">
+                <div class="col-md-7">
+                    <h1 class="h2">Mi cuenta</h1>
+                </div>
+                <div class="col-md-5">
+                    <ul class="breadcrumb d-flex justify-content-end">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
+                        <li class="breadcrumb-item active">Editar Cuenta</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="box">
+                        <h2 class="text-uppercase">Editar Cuenta</h2>
+                        <p class="lead">Disfruta de las ventajas de ser cliente socio</p>
+                        <p>Con tu registro podrás acceder a nuestra tarjeta cliente socio, donde acumularas saldo con
+                            tus compras dentro de los productos marcados con precio de socio!</p>
+                    {% if messages %}
+                            {% for message in messages %}
+                                <br>
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                                    <p class="text-center" style="color: mediumvioletred;">
+                                        {{ message }}
+                                    </p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% if tarjeta is None %}
+                        <p class="text-muted"><a href="{% url 'cli_tarjeta_add' %}">Solicitar Tarjeta Socio</a></p>
+                        {% else %}
+                        <p class="text-center" style="color: mediumvioletred;">Recuerda que dispones de tarjeta socio! Aprovechala para tus compras ;-)</p>
+                    {% endif %}
+                        {% if form.errors or formUser.errors %}
+                            <hr>
+                            <div class="row">
+                                <h4 class="alert">Ups! Hemos encontrado estos errores</h4>
+                                <div class="col-lg-12">
+                                    {{ form.errors }}
+                                    {{ formUser.errors }}
+                                </div>
+                            </div>
+                        {% endif %}
+                        <hr>
+                        <form action="{% url 'cli_edit' %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="row">
+                                <p class="text-uppercase">Datos personales</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <label>{{ form.nombre.label }}</label>
+                                    {% render_field form.nombre class="form-control" %}
+                                </div>
+                                <div class="col-lg-4">
+                                    <label>{{ form.apellidos.label }}</label>
+                                    {% render_field form.apellidos class="form-control" %}
+                                </div>
+                                <div class="col-lg-6">
+                                    <label>{{ form.email.label }}</label>
+                                    {% render_field form.email class="form-control" %}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <label>Contraseña</label>
+                                    {% render_field formUser.password class="form-control" placeholder="***********" %}
+                                </div>
+                                <div class="col-lg-10">
+                                    <label>Imágen de usuario</label> -- <span class="text-gray">Puedes personalizar tu perfil con tu imagen</span>
+                                    {% render_field form.image class="form-control" %}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <p class="text-uppercase">Dirección de Envio y Facturacción</p>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <label>{{ form.tipo_via.label }}</label>
+                                    {% render_field form.tipo_via class="form-control" %}
+                                </div>
+                                <div class="col-lg-4">
+                                    <label>{{ form.direccion.label }}</label>
+                                    {% render_field form.direccion class="form-control" %}
+                                </div>
+                                <div class="col-lg-1">
+                                    <label>{{ form.portal.label }}</label>
+                                    {% render_field form.portal class="form-control" %}
+                                </div>
+                                <div class="col-lg-1">
+                                    <label>{{ form.escalera.label }}</label>
+                                    {% render_field form.escalera class="form-control" %}
+                                </div>
+                                <div class="col-lg-1">
+                                    <label>{{ form.piso.label }}</label>
+                                    {% render_field form.piso class="form-control" %}
+                                </div>
+                                <div class="col-lg-1">
+                                    <label>{{ form.casa.label }}</label>
+                                    {% render_field form.casa class="form-control" %}
+                                </div>
+                                <div class="col-lg-2">
+                                    <label>{{ form.cp.label }}</label>
+                                    {% render_field form.cp class="form-control" %}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <label>{{ form.localidad.label }}</label>
+                                    {% render_field form.localidad class="form-control" %}
+                                </div>
+                                <div class="col-lg-4">
+                                    <label>{{ form.provincia.label }}</label>
+                                    {% render_field form.provincia class="form-control" %}
+                                </div>
+                                <div class="col-lg-2">
+                                    <label>{{ form.telefono1.label }}</label>
+                                    {% render_field form.telefono1 class="form-control" %}
+                                </div>
+                                <div class="col-lg-2">
+                                    <label>{{ form.telefono2.label }}</label>
+                                    {% render_field form.telefono2 class="form-control" %}
+                                </div>
+                            </div>
+                            <br>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-template-outlined"><i
+                                        class="fa fa-user-md"></i>
+                                    Guardar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% include 'supermercado/public/general/footer.html' %}
