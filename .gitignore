@@ -2,6 +2,7 @@
 db.sqlite3
 settings.py
 *.pyc
+.idea
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
