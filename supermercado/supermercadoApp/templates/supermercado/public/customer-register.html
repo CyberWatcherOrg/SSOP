@@ -1,0 +1,98 @@
+{% load static %}
+{% load widget_tweaks %}
+<!-- Head bar-->
+{% include 'supermercado/public/general/head.html' %}
+<!-- Head end-->
+<body>
+<div id="all">
+    <!-- Top bar-->
+    {% include 'supermercado/public/general/topbar.html' %}
+    <!-- Top bar end-->
+
+    <!-- Navbar -->
+    {% include 'supermercado/public/general/navbar.html' %}
+    <!-- Navbar End-->
+
+    <div id="heading-breadcrumbs">
+        <div class="container">
+            <div class="row d-flex align-items-center flex-wrap">
+                <div class="col-md-7">
+                    <h1 class="h2">Nueva Cuenta / Login</h1>
+                </div>
+                <div class="col-md-5">
+                    <ul class="breadcrumb d-flex justify-content-end">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
+                        <li class="breadcrumb-item active">Nueva Cuenta / Login</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="box">
+                        <h2 class="text-uppercase">Nueva Cuenta</h2>
+                        <p class="lead">¿Todavia no eres cliente?</p>
+                        <p>Con tu registro comenzaras a disfrutar de los fantasticos precios y productos de nuestro supermercado.
+                            El proceso no te llevará más de 1 minuto!</p>
+                        <p class="text-muted">Si tienes alguna pregunta, por favor, ponte en <a href="{% url 'cli_contacto' %}">contacto con nosotros</a>.</p>
+                        <hr>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <br>
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                                    <p class="text-center" style="color: mediumvioletred;">
+                                        {{ message }}
+                                    </p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <div class="text-center">
+                            <a href="{% url 'cli_register' %}" class="btn btn-template-outlined">Registrarse</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="box">
+                        <h2 class="text-uppercase">Login</h2>
+                        <p class="lead">¿Eres cliente nuestro?</p>
+                        <p class="text-muted">Si está pensando en cambiar su modo de comprar
+                            y tener calidad y eficiencia en su compra tiene que saber que empresas como xxx e yyy nos
+                            han elegido para
+                            su compra y para cumplir sus necesidades.
+                        <p class="text-muted">Si quiere ser cliente nuestro <a href="{% url 'cli_register' %}">registrese</a>.</p>
+                        <hr>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <br>
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                    <p class="text-center" style="color: red;">
+                                        {{ message }}
+                                    </p>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <form action="{% url 'login' %}" method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label>{{ form.username.label }}</label>
+                                {% render_field form.username class="form-control" %}
+                            </div>
+                            <div class="form-group">
+                                <label>{{ form.password.label }}</label>
+                                {% render_field form.password class="form-control" %}
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-template-outlined"><i class="fa fa-sign-in"></i>
+                                    Acceder
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% include 'supermercado/public/general/footer.html' %}

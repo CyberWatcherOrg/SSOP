@@ -1,0 +1,68 @@
+{% load static %}
+
+<div class="top-bar">
+    <div class="container">
+        <div class="row d-flex align-items-center">
+            <div class="col-md-6 d-md-block d-none">
+                <p>Contacta con nosotros en el +34 976 58 12 44 o info@eviansupermercados.com.</p>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex justify-content-md-end justify-content-between">
+                    <ul class="list-inline contact-info d-block d-md-none">
+                        <li class="list-inline-item"><a href="#"><i class="fa fa-phone"></i></a></li>
+                        <li class="list-inline-item"><a href="#"><i class="fa fa-envelope"></i></a></li>
+                    </ul>
+                    <div class="login">
+                        {% if request.session.isA == 0 and request.session.isA != -1 and request.session.isA != 1 %}
+                            <a href="{% url 'cli_view_edit' %}" class="login-btn" data-toggle="tooltip" data-placement="left" title="Puedes editar tus datos"><i class="fa fa-user"></i><span class="d-none d-md-inline-block" style="text-transform: capitalize">Hola {{ request.session.cli_nombre }} {{ request.session.cli_apellidos }}</span></i></a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="{% url 'logout_cli' %}" class="login-btn"><i class="fa fa-sign-out"></i><span class="d-none d-md-inline-block">Logout</span></a>
+                            {% else %}
+                            <a href="#" data-toggle="modal" data-target="#login-modal" class="login-btn">
+                            <i class="fa fa-sign-in"></i><span class="d-none d-md-inline-block">Acceder</span></a>
+                            <a href="{% url 'register' %}" class="signup-btn"><i class="fa fa-user"></i><span class="d-none d-md-inline-block">Registrarse</span></a>
+                        {% endif %}
+                    </div>
+                    <ul class="social-custom list-inline">
+                        <li class="list-inline-item"><a href="https://es-es.facebook.com/Eroski/" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                        <li class="list-inline-item"><a href="https://plus.google.com/+eroskiconsumer" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                        <li class="list-inline-item"><a href="https://twitter.com/eroski?lang=es" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                        <li class="list-inline-item"><a href="{% url 'cli_contacto' %}"><i class="fa fa-envelope"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Top bar end-->
+<!-- Login Modal-->
+    <div id="login-modal" tabindex="-1" role="dialog" aria-labelledby="login-modalLabel" aria-hidden="true"
+         class="modal fade">
+        <div role="document" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 id="login-modalLabel" class="modal-title">Inicio de sesión</h4>
+                    <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span
+                            aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body">
+                    <form action="{% url 'login' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input id="username_modal" type="text" placeholder="username" name="username"
+                                   class="form-control" autocomplete="off">
+                        </div>
+                        <div class="form-group">
+                            <input id="password_modal" type="password" placeholder="password" name="password"
+                                   class="form-control">
+                        </div>
+                        <p class="text-center">
+                            <button class="btn btn-template-outlined"><i class="fa fa-sign-in"></i> Acceder</button>
+                        </p>
+                    </form>
+                    <p class="text-center text-muted">¿Todavia no estas registrado?</p>
+                    <p class="text-center text-muted"><a href="{% url 'cli_register' %}"><strong>Registrate ahora</strong></a>! Es muy facil y
+                        no te llevará más de 1 minuto para disfrutar de nuestros increibles precios!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Login modal end-->

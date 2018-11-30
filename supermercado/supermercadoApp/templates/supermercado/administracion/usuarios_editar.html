@@ -1,0 +1,166 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load static %}
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+{% include 'supermercado/administracion/general/head.html' %}
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <!-- Main Header -->
+    {% include 'supermercado/administracion/general/header.html' %}
+    <!-- Left side column. contains the logo and sidebar -->
+    {% include 'supermercado/administracion/general/menu_izquierdo.html' %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Usuarios
+                <small>Administración usuarios</small>
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+            <div class="box box-success">
+                <form action="{% url 'edit_usuario' id_usuario %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Editar Usuario {{ dni }} - {{ username }}</h3>
+                        <a href="{% url 'usuarios' %}" class="btn btn-primary" style="float: right;margin-right: 20px;margin-left: 20px">Volver atras</a>
+                        <button type="submit" class="btn btn-success" style="float: right;margin-right: 20px">Editar Usuario
+                        </button>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <label>{{ formUser.first_name.label }}</label>
+                                {% render_field formUser.first_name class="form-control" %}
+                            </div>
+                            <div class="col-lg-3">
+                                <label>{{ formUser.last_name.label }}</label>
+                                {% render_field formUser.last_name class="form-control" %}
+                            </div>
+                            <div class="col-lg-6">
+                                <label>{{ formUser.email.label }}</label>
+                                {% render_field formUser.email class="form-control" %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <label>{{ formUser.password.label }}</label>
+                                {% render_field formUser.password class="form-control" placeholder="*********" %}
+                            </div>
+                            <div class="col-lg-4">
+                                <label>{{ formProfile.image.label }}</label>
+                                {% render_field formProfile.image class="form-control" %}
+                            </div>
+                            <div class="col-lg-4">
+                                <label>{{ formUser.is_superuser.label }}</label><br>
+                                {% render_field formUser.is_superuser %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-1">
+                                <label>{{ formProfile.tipo_via.label }}</label>
+                                {% render_field formProfile.tipo_via class="form-control" %}
+                            </div>
+                            <div class="col-lg-5">
+                                <label>{{ formProfile.direccion.label }}</label>
+                                {% render_field formProfile.direccion class="form-control" %}
+                            </div>
+                            <div class="col-lg-1">
+                                <label>{{ formProfile.portal.label }}</label>
+                                {% render_field formProfile.portal class="form-control" %}
+                            </div>
+                            <div class="col-lg-1">
+                                <label>{{ formProfile.escalera.label }}</label>
+                                {% render_field formProfile.escalera class="form-control" %}
+                            </div>
+                            <div class="col-lg-1">
+                                <label>{{ formProfile.piso.label }}</label>
+                                {% render_field formProfile.piso class="form-control" %}
+                            </div>
+                            <div class="col-lg-1">
+                                <label>{{ formProfile.casa.label }}</label>
+                                {% render_field formProfile.casa class="form-control" %}
+                            </div>
+                            <div class="col-lg-1">
+                                <label>{{ formProfile.cp.label }}</label>
+                                {% render_field formProfile.cp class="form-control" %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <label>{{ formProfile.localidad.label }}</label>
+                                {% render_field formProfile.localidad class="form-control" %}
+                            </div>
+                            <div class="col-lg-4">
+                                <label>{{ formProfile.provincia.label }}</label>
+                                {% render_field formProfile.provincia class="form-control" %}
+                            </div>
+                            <div class="col-lg-2">
+                                <label>{{ formProfile.telefono1.label }}</label>
+                                {% render_field formProfile.telefono1 class="form-control" %}
+                            </div>
+                            <div class="col-lg-2">
+                                <label>{{ formProfile.telefono2.label }}</label>
+                                {% render_field formProfile.telefono2 class="form-control" %}
+                            </div>
+
+                        </div>
+                        <div class="row">
+                        </div>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <br>
+                                <div class="alert alert-error" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                    </div>
+                </form>
+
+            <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Main Footer -->
+{% include 'supermercado/administracion/general/footer.html' %}
+
+<!-- Control Sidebar -->
+{% include 'supermercado/administracion/general/menu_derecho.html' %}
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+
+{% include 'supermercado/administracion/general/required_js.html' %}

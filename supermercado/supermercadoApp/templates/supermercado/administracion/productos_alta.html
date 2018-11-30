@@ -1,0 +1,135 @@
+{% load static %}
+{% load widget_tweaks %}
+{% load static %}
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+{% include 'supermercado/administracion/general/head.html' %}
+<!--
+BODY TAG OPTIONS:
+=================
+Apply one or more of the following classes to get the
+desired effect
+|---------------------------------------------------------|
+| SKINS         | skin-blue                               |
+|               | skin-black                              |
+|               | skin-purple                             |
+|               | skin-yellow                             |
+|               | skin-red                                |
+|               | skin-green                              |
+|---------------------------------------------------------|
+|LAYOUT OPTIONS | fixed                                   |
+|               | layout-boxed                            |
+|               | layout-top-nav                          |
+|               | sidebar-collapse                        |
+|               | sidebar-mini                            |
+|---------------------------------------------------------|
+-->
+<body class="hold-transition skin-blue sidebar-mini">
+<div class="wrapper">
+
+    <!-- Main Header -->
+    {% include 'supermercado/administracion/general/header.html' %}
+    <!-- Left side column. contains the logo and sidebar -->
+    {% include 'supermercado/administracion/general/menu_izquierdo.html' %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h1>
+                Productos
+                <small>Administración productos</small>
+            </h1>
+        </section>
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+            <div class="box box-success">
+                <form action="{% url 'add_producto' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Alta Nuevo Producto</h3>
+                        <a href="{% url 'productos' %}" class="btn btn-primary"
+                           style="float: right;margin-right: 20px;margin-left: 20px">Volver atras</a>
+                        <button type="reset" class="btn btn-warning" style="float: right">Limpiar datos</button>
+                        <button type="submit" class="btn btn-success" style="float: right;margin-right: 20px">Guardar
+                            Producto
+                        </button>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-lg-1">
+                                <label>{{ form.codigo.label }}</label>
+                                {% render_field form.codigo class="form-control" %}
+                            </div>
+                            <div class="col-lg-6">
+                                <label>{{ form.nombre.label }}</label>
+                                {% render_field form.nombre class="form-control" %}
+                            </div>
+                            <div class="col-lg-0"></div>
+                            <div class="col-lg-3">
+                                <label>{{ form.categoria.label }}</label>
+                                {% render_field form.categoria class="form-control" %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <label>{{ form.descripcion_corta.label }}</label>
+                                {% render_field form.descripcion_corta class="form-control" %}
+                            </div>
+                            <div class="col-lg-0"></div>
+                            <div class="col-lg-3">
+                                <label>{{ form.imagen.label }}</label>
+                                {% render_field form.imagen %}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5">
+                                <label>{{ form.descripcion.label }}</label>
+                                {% render_field form.descripcion class="form-control" %}
+                            </div>
+                            <div class="col-lg-2"></div>
+                            <div class="col-lg-1">
+                                <label>{{ form.stock.label }}</label>
+                                {% render_field form.stock class="form-control" %}
+                            </div>
+                            <div class="col-lg-1">
+                                <label>{{ form.pvp.label }}</label>
+                                {% render_field form.pvp class="form-control" %}
+                            </div>
+                            <div class="col-lg-1">
+                                <label>{{ form.pvp_socio.label }}</label>
+                                {% render_field form.pvp_socio class="form-control" %}
+                            </div>
+                            <label>{{ form.diferencia_en_tarjeta.label }}</label><br>
+                            {% render_field form.diferencia_en_tarjeta %}
+                            {% if form.errors %}
+                                <div class="col-lg-3">
+                                    {{ form.errors }}
+                                </div>
+                        {% endif %}
+                        </div>
+                    </div>
+                </form>
+
+            <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<!-- Main Footer -->
+{% include 'supermercado/administracion/general/footer.html' %}
+
+<!-- Control Sidebar -->
+{% include 'supermercado/administracion/general/menu_derecho.html' %}
+</div>
+<!-- ./wrapper -->
+
+<!-- REQUIRED JS SCRIPTS -->
+
+{% include 'supermercado/administracion/general/required_js.html' %}

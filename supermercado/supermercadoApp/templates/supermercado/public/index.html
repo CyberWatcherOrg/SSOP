@@ -1,0 +1,175 @@
+{% load static %}
+ <!-- Head bar-->
+        {% include 'supermercado/public/general/head.html' %}
+    <!-- Head end-->
+  <body>
+    <div id="all">
+      <!-- Top bar-->
+        {% include 'supermercado/public/general/topbar.html' %}
+    <!-- Top bar end-->
+
+        <!-- Navbar -->
+{% include 'supermercado/public/general/navbar.html' %}
+<!-- Navbar End-->
+
+        <section style="background: url('{% static 'supermercado/img/public/banners/background.jpg' %}') center center repeat; background-size: cover;" class="bar background-white relative-positioned">
+        <div class="container">
+          <!-- Carousel Start-->
+          <div class="home-carousel">
+            <div class="dark-mask mask-primary"></div>
+            <div class="container">
+              <div class="homepage owl-carousel">
+                <div class="item">
+                  <div class="row">
+                    <div class="col-md-5 text-right">
+                      <p><img src="{% static 'supermercado/img/public/logo/logo.png' %}" alt="" class="ml-auto"></p>
+                      <h1>Supermercado Evian</h1>
+                      <p>Productos seleccionados, frescos y <br>a buen precio.</p>
+                    </div>
+                    <div class="col-md-7"><img src="{% static 'supermercado/img/public/banners/supermarket.jpg' %}" style="width: 800px" alt="" class="img-fluid"></div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="row">
+                    <div class="col-md-7 text-center"><img src="{% static 'supermercado/img/public/banners/cyber-monday-banner.jpg' %}" alt="" class="img-fluid"></div>
+                    <div class="col-md-5">
+                      <h2>Cyber-Monday</h2>
+                      <ul class="list-unstyled">
+                        <li>Grandes ofertas</li>
+                        <li>Más descuentos</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="row">
+                    <div class="col-md-5 text-right">
+                      <h1>Productos</h1>
+                      <ul class="list-unstyled">
+                        <li>Todo lo que busques está aquí</li>
+                        <li>Seleccionados, frescos y a buen precio</li>
+                      </ul>
+                    </div>
+                    <div class="col-md-7"><img src="{% static 'supermercado/img/public/banners/market.png' %}" alt="" style="width: 400px" class="img-fluid"></div>
+                  </div>
+                </div>
+                <div class="item">
+                  <div class="row">
+                    <div class="col-md-7"><img src="{% static 'supermercado/img/public/banners/reparto.png' %}" style="width: 400px" alt="" class="img-fluid"></div>
+                    <div class="col-md-5">
+                      <h1>Reparto express</h1>
+                      <ul class="list-unstyled">
+                        <li>Repartimos en menos de 24h.</li>
+                        <li>Llegamos a tu casa</li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Carousel End-->
+        </div>
+      </section>
+    <section class="bg-white bar">
+        <div class="container">
+          <div class="heading text-center">
+            <h2>Productos de Interes</h2>
+          </div>
+            <p class="lead text-center"><strong>Ahorra tiempo. Ahorra dinero</strong></p>
+          <p class="lead text-justify">Nuestros productos siempre son seleccionados con la mejor calidad. En nuestra tienda, podrás ver todos nuestros productos seleccionados frescos y sanos. Además tu compra estará en tu casa en menos de 24h! Sientete libre y cómodo de empezar tu compra ahora. </p>
+          <div class="row">
+              {% if productosInteres %}
+                  {% for producto in productosInteres %}
+                        <div class="col-lg-4">
+                          <div class="home-blog-post">
+                            <div class="image text-center"><img src="{% static 'supermercado/img/'%}{{ producto.imagen }}" alt="..." class="img-fluid">
+                              <div class="overlay d-flex align-items-center justify-content-center"><a href="{% url 'cli_producto_detalle' producto.id %}" class="btn btn-template-outlined-white"><i class="fa fa-eye"> </i> Detalle</a></div>
+                            </div>
+                            <div class="text">
+                              <h4><a href="{% url 'cli_producto_detalle' producto.id %}">{{ producto.descripcion_corta }}</a></h4>
+                              <p class="author-category"><a href="{% url 'cli_producto_detalle' producto.id %}">Producto con precio socio!</a></p>
+                            </div>
+                          </div>
+                        </div>
+                  {% endfor%}
+              {% endif %}
+          </div>
+        </div>
+      </section>
+        {% if opiniones %}
+      <section class="bar background-pentagon no-mb text-md-center">
+        <div class="container">
+          <div class="heading text-center">
+            <h2>Testimonios</h2>
+          </div>
+          <p class="lead">Trabajamos con muchos clientes y siempre nos gusta escucharles. Valoramos la cooperación y la satisfacción de nuestros clientes. Hecha un vistazo lo que nuestros clientes dicen sobre nuestros productos.</p>
+          <!-- Carousel Start-->
+          <ul class="owl-carousel testimonials list-unstyled equal-height">
+              {% for opinion in opiniones %}
+                    <li class="item">
+                      <div class="testimonial d-flex flex-wrap">
+                        <div class="text">
+                          {{ opinion.mensaje.mensaje|safe }}
+                        </div>
+                        <div class="bottom d-flex align-items-center justify-content-between align-self-end">
+                          <div class="icon"><i class="fa fa-quote-left"></i></div>
+                          <div class="testimonial-info d-flex">
+                            <div class="title">
+                              <h5>{{ opinion.mensaje.cliente.nombre }}</h5>
+                              <p>Opina sobre {{ opinion.producto.nombre }}</p>
+                            </div>
+                            {% if opinion.mensaje.cliente.imagen %}
+                                <div class="avatar"><img alt="" src="{% static 'supermercado/img/'%}{{ opinion.mensaje.cliente.image }}" class="img-fluid"></div>
+                                {% else %}
+                                <div class="avatar"><img alt="" src="{% static 'supermercado/img/'%}{{ opinion.mensaje.cliente.image }}" class="img-fluid"></div>
+                            {% endif %}
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+              {% endfor %}
+          </ul>
+          <!-- Carousel End-->
+        </div>
+      </section>
+        {% endif %}
+        <!--  IMAGEN DE FONDO 2 -->
+      <section style="background: url({% static 'supermercado/img/public/banners/background2.jpg' %}) center top no-repeat; background-size: cover;" class="bar no-mb color-white text-center bg-fixed relative-positioned">
+        <div class="dark-mask"></div>
+        <div class="container">
+          <div class="icon icon-outlined icon-lg"><i class="fa fa-simplybuilt"></i></div>
+          <h3 class="text-uppercase">Accede a nuestra tienda</h3>
+          <p class="lead">Tenemos seleccionados los mejores productos, frescos y sanos.</p>
+          <p class="text-center"><a href="{% url 'cli_tienda' %}" class="btn btn-template-outlined-white btn-lg">Acceder al supermercado</a></p>
+        </div>
+      </section>
+    <section class="bar background-white">
+        <div class="container text-center">
+          <div class="row">
+            <div class="col-lg-4 col-md-6">
+              <div class="box-simple">
+                <a href="{% url 'cli_tienda' %}"><div class="icon-outlined"><i class="fa fa-simplybuilt"></i></div></a>
+                <h3 class="h4">Tienda</h3>
+                <p>Encuentra una gran cantidad de productos frescos y sanos, seleccionados con la mejor calidad.</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="box-simple">
+                <a href="{% url 'cli_tarjetaSocio' %}"><div class="icon-outlined"><i class="fa fa-credit-card-alt"></i></div></a>
+                <h3 class="h4">Tarja Socio</h3>
+                <p>Solicita nuestra tarjeta socio para nuestros clientes. Aprovechala con ventajas y descuentos en una gran cantidad de productos. Acumula saldo comprando productos seleccionados y usalo para descontar tus próximas compras</p>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+              <div class="box-simple">
+                  <a href="{% url 'cli_contacto' %}"><div class="icon-outlined"><i class="fa fa-phone"></i></div></a>
+                <h3 class="h4">Evian Supermercados</h3>
+                <p>¿Tienes alguna duda? Sientete libre de contactar con nosotros.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+        {% include 'supermercado/public/general/footer.html' %}

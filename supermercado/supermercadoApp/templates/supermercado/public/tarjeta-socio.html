@@ -1,0 +1,90 @@
+{% load static %}
+<!-- Head bar-->
+{% include 'supermercado/public/general/head.html' %}
+<!-- Head end-->
+<body>
+<div id="all">
+    <!-- Top bar-->
+    {% include 'supermercado/public/general/topbar.html' %}
+    <!-- Top bar end-->
+
+    <!-- Navbar -->
+    {% include 'supermercado/public/general/navbar.html' %}
+    <!-- Navbar End-->
+
+    <div id="heading-breadcrumbs">
+        <div class="container">
+            <div class="row d-flex align-items-center flex-wrap">
+                <div class="col-md-7">
+                    <h1 class="h2">Tarjeta Socio</h1>
+                </div>
+                <div class="col-md-5">
+                    <ul class="breadcrumb d-flex justify-content-end">
+                        <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
+                        <li class="breadcrumb-item active">Tarjeta Socio</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="content">
+        <div class="container">
+            <section class="no-mb bar">
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="lead no-mb">La tarjeta socio de Evian Supermercados permite a los clientes disfrutar
+                            de ventajas y descuentos en una gran cantidad de productos.</p>
+                    </div>
+                </div>
+            </section>
+            <section>
+                <div class="project owl-carousel">
+                    <div class="item"><img src="{% static 'supermercado/img/public/banners/tarjeta_socio.jpg'%}" height="563px" alt=""></div>
+                    <div class="item"><img src="{% static 'supermercado/img/public/banners/mujer-ordenador.jpg'%}" height="563px" alt=""></div>
+                    <div class="item"><img src="{% static 'supermercado/img/public/banners/mujer-satisfecha.jpg'%}" height="563px" alt=""></div>
+                    <div class="item"><img src="{% static 'supermercado/img/public/banners/reparto.jpg'%}" height="563px" alt=""></div>
+                </div>
+            </section>
+            <section class="bar">
+                <div class="row portfolio-project">
+                    <div class="col-md-8">
+                        <div class="heading">
+                            <h3>Hazte Socio</h3>
+                        </div>
+                        <p>Con la tarjeta socio podras disfrutar de ventajas y descuentos en una gran cantidad de
+                            productos.</p>
+                        <p>Además de los descuentos, acumularas saldo comprando productos con precio socio. Tu saldo lo
+                            podras utilizar en tus compras ahorrando dinero!</p>
+                        {% if tarjeta %}
+                            <p class="text-center" style="color: mediumvioletred;">Ya dispones de una tarjeta socio.
+                                Aprovechala para tus compras ;-)</p>
+                            {% if tarjeta.saldo_actual > 0 %}
+                                <p class="text-center" style="color: mediumvioletred;">Tienes un saldo actual
+                                    de {{ tarjeta.saldo_actual|floatformat:2 }}€</p>
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                    {% if tarjeta is None %}
+                        <div class="col-md-4 project-more">
+                            <div class="heading">
+                                <h3>Evian Supermercados</h3>
+                            </div>
+                            <h4>Solicita tu tarjeta</h4>
+                            {% if request.session.isA == 0 and request.session.isA != -1 and request.session.isA != 1 and tarjeta is None %}
+                                <p style="color: mediumvioletred;">Ya dispones de tu tarjeta socio! Aprovechala para tus compras ;-)</p>
+                                {% elif  request.session.isA == 0 and request.session.isA != -1 and request.session.isA != 1 and tarjeta%}
+                                    <p><a href="{% url 'cli_view_edit' %}">Accede</a> para solicitar tu tarjeta</p>
+                                 {% else %}
+                                <p><a href="{% url 'register' %}">Registrate / Inicia sesión</a> y solicita tu tarjeta</p>
+                            {% endif %}
+                            <h4>Tienda</h4>
+                            <p><a href="{% url 'cli_tienda' %}">Accede</a> a nuestro supermercado</p>
+                            <h4>Contacto</h4>
+                            <p>Sientete libre de <a href="{% url 'cli_contacto' %}">mandarnos un mensaje</a></p>
+                        </div>
+                    {% endif %}
+                </div>
+            </section>
+        </div>
+    </div>
+{% include 'supermercado/public/general/footer.html' %}

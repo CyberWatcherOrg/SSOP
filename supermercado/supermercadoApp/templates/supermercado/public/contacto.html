@@ -1,0 +1,117 @@
+{% load static %}
+<!-- Head bar-->
+{% include 'supermercado/public/general/head.html' %}
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+<!-- Head end-->
+<body>
+<div id="all">
+    <!-- Top bar-->
+    {% include 'supermercado/public/general/topbar.html' %}
+    <!-- Top bar end-->
+
+    <!-- Navbar -->
+    {% include 'supermercado/public/general/navbar.html' %}
+    <!-- Navbar End-->
+      
+      <div id="heading-breadcrumbs" class="brder-top-0 border-bottom-0">
+        <div class="container">
+          <div class="row d-flex align-items-center flex-wrap">
+            <div class="col-md-7">
+              <h1 class="h2">Contacto</h1>
+            </div>
+            <div class="col-md-5">
+              <ul class="breadcrumb d-flex justify-content-end">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">Inicio</a></li>
+                <li class="breadcrumb-item active">Contacto</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="content">
+        <div id="map"></div>
+        <div id="contact" class="container">
+          <div class="row">
+            <div class="col-lg-8">
+              <section class="bar">
+                <div class="heading">
+                  <h2>Estamos aquí para ayudarte</h2>
+                </div>
+                <p class="lead">¿Tienes alguna duda?. ¿Has tenido algún problema con nuestros productos? Aquí tienes toda la información para que puedas contactar con nosotros.</p>
+                <p class="text-sm">Por favor, sientete libre de contactar con nuestro servicio de atención al cliente en horario 24 horas todos los días del año.</p>
+                <div class="heading">
+                  <h3>Envianos un mensaje</h3>
+                </div>
+                <form action="{% url 'cli_contacto_mensaje' %}" method="post">
+                {% csrf_token %}
+                    {% if messages %}
+                            {% for message in messages %}
+                                <br>
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                                    <div class="alert alert-info" role="alert">
+                                        <p>{{ message }}</p>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="firstname">Nombre</label>
+                        <input id="firstname" name="nombre" type="text" class="form-control" required>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="lastname">Apellidos</label>
+                        <input id="lastname" name="apellidos" type="text" class="form-control" required>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="email">Email</label>
+                        <input id="email" name="email" type="email" class="form-control" required>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="subject">Asunto</label>
+                        <input id="subject" name="asunto" type="text" class="form-control" required>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="message">Mensaje</label>
+                        <textarea id="message" name="mensaje" class="form-control" required></textarea>
+                      </div>
+                    </div>
+                    <div class="col-md-12 text-center">
+                      <button type="submit" class="btn btn-template-outlined"><i class="fa fa-envelope-o"></i> Enviar Mensaje</button>
+                    </div>
+                  </div>
+                </form>
+              </section>
+            </div>
+            <div class="col-lg-4">
+              <section class="bar mb-0">
+                <h3 class="text-uppercase">Dirección</h3>
+                <p class="text-sm">Evian Supermercados<br>Edificio World Trade Center<br>50018<br>Zaragoza<br><strong>España</strong></p>
+                <h3 class="text-uppercase">Call center</h3>
+                <p class="text-muted text-sm">Éste número es completamente gratis si llamas desde España. Si llamas desde el extranjero puede que tu operadora te añada costes</p>
+                <p><strong>+34 976 58 12 44</strong></p>
+                <h3 class="text-uppercase">Soporte telematico</h3>
+                <p class="text-muted text-sm">Por favor, sientete libre de escribirnos un correo electrónico.</p>
+                <ul class="text-sm">
+                  <li><strong><a href="mailto:">info@eviansupermercados.com</a></strong></li>
+                </ul>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC8h1u3loWbOJyNAvSRenpHGoHBm31LmN8"></script>
+    <script src="{% static 'supermercado/styles/public/js/gmaps.js'%}"></script>
+    <script src="{% static 'supermercado/styles/public/js/gmaps.init.js'%}"></script>
+    <script src="{% static 'supermercado/styles/public/js/front.js'%}"></script>
+     {% include 'supermercado/public/general/footer.html' %}

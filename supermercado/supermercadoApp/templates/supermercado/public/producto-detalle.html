@@ -1,0 +1,230 @@
+{% load static %}
+{% load widget_tweaks %}
+<!-- Head bar-->
+{% include 'supermercado/public/general/head.html' %}
+<script type="text/javascript" src="{% static "ckeditor/ckeditor-init.js" %}"></script>
+<script type="text/javascript" src="{% static "ckeditor/ckeditor/ckeditor.js" %}"></script>
+<!-- Head end-->
+<body>
+<div id="all">
+    <!-- Top bar-->
+    {% include 'supermercado/public/general/topbar.html' %}
+    <!-- Top bar end-->
+
+    <!-- Navbar -->
+    {% include 'supermercado/public/general/navbar.html' %}
+    <!-- Navbar End-->
+
+    <div id="heading-breadcrumbs">
+        <div class="container">
+            <div class="row d-flex align-items-center flex-wrap">
+                <div class="col-md-7">
+                    <h1 class="h2">{{ productoDetalle.nombre }}</h1>
+                </div>
+                <div class="col-md-5">
+                    <ul class="breadcrumb d-flex justify-content-end">
+                        <li class="breadcrumb-item"><a href="{% url 'cli_tienda' %}">Tienda</a></li>
+                        <li class="breadcrumb-item active">{{ productoDetalle.nombre }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="content">
+        <div class="container">
+            <div class="row bar">
+                <div class="col-md-3">
+                    <!-- MENUS AND FILTERS-->
+                    <div class="panel panel-default sidebar-menu">
+                        <div class="panel-heading">
+                            <h3 class="h4 panel-title">Buscador</h3>
+                        </div>
+                        <div class="panel-body">
+                            <input type="text" name="serie" id="producto" class="form-control" placeholder="Producto"  style="overflow: auto"
+                                   size="20">
+                        </div>
+                        <br>
+                        <div class="panel-heading">
+                            <h3 class="h4 panel-title">Categorias</h3>
+                        </div>
+                        <div class="panel-body">
+                            <ul class="nav nav-pills flex-column text-sm category-menu">
+                                {% for categoria in categorias %}
+                                    <li class="nav-item"><a href="{% url 'cli_tienda_categoria' categoria.id %}"
+                                                            class="nav-link d-flex align-items-center justify-content-between"><span>{{ categoria.nombre }} </span></a>
+
+                                        <ul class="nav nav-pills flex-column">
+                                            {% for producto in productos %}
+                                                {% if producto.categoria.id == categoria.id and producto.stock > 0 %}
+                                                    <li class="nav-item"><a
+                                                            href="{% url 'cli_producto_detalle' producto.id %}"
+                                                            class="nav-link">{{ producto.nombre }}</a></li>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </ul>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="banner"><a href="#"><img
+                            src="{% static 'supermercado/img/public/banners/cyber-monday2.jpg' %}"
+                            alt="" class="img-fluid"></a></div>
+                </div>
+                <!-- RIGTH COLUMN _________________________________________________________-->
+                <div class="col-lg-9">
+                    <div id="productMain" class="row">
+                        <div class="col-sm-6">
+                            <div data-slider-id="1" class="owl-carousel shop-detail-carousel">
+                                <div><img src="{% static 'supermercado/img/' %}{{ productoDetalle.imagen }}" alt=""
+                                          class="img-fluid"></div>
+                                <div><img src="{% static 'supermercado/img/' %}{{ productoDetalle.imagen }}" alt=""
+                                          class="img-fluid"></div>
+                                <div><img src="{% static 'supermercado/img/' %}{{ productoDetalle.imagen }}" alt=""
+                                          class="img-fluid"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="box">
+                                <form action="{% url 'cli_add_producto_carrito' productoDetalle.id %}" method="post">
+                                    {% csrf_token %}
+                                    {% if messages %}
+                                        {% for message in messages %}
+                                            <br>
+                                            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                                                <div class="alert alert-error" role="alert">
+                                                    {{ message }}
+                                                </div>
+                                            {% elif message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                                                <div class="alert alert-success text-center" role="alert">
+                                                    {{ message }} <i class="fa fa-shopping-cart"></i>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="sizes">
+                                        <h3>{{ productoDetalle.nombre }}</h3>
+                                        <h4>{{ productoDetalle.descripcion_corta }}</h4>
+                                    </div>
+                                    <p class="price">{{ productoDetalle.pvp|floatformat:2  }} € <i class="fa fa-users"></i></p>
+                                    <p class="price">{{ productoDetalle.pvp_socio|floatformat:2  }} € <i class="fa fa-id-card"
+                                                                                          style="color: mediumvioletred;"></i></p>
+                                    <p class="text-center"><label class="text-muted">Cantidad</label><br><input
+                                            type="number" min="1" name="cantidad" value="1" class="input-append"
+                                            style="display: inline;text-align: center"/></p>
+                                    <p class="text-center">
+                                        <button type="submit" class="btn btn-template-outlined"><i
+                                                class="fa fa-shopping-cart"></i> Añadir al carro
+                                        </button>
+                                    </p>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="details" class="box mb-2 mt-2">
+                        <p></p>
+                        <h4>Detalles del producto</h4>
+                        {{ productoDetalle.descripcion|safe }}
+                    </div>
+                    {% if mensajes %}
+                        <div class="row services text-center">
+                            {% for mensaje in mensajesAceptados %}
+                                {% if mensaje.mensaje.tipo_mensaje == "Opinión" and mensaje.producto.id == productoDetalle.id %}
+                                    <div class="col-md-4">
+                                        <div class="box-simple">
+                                            <div><br><img src="{% static 'supermercado/img/'%}{{ mensaje.mensaje.cliente.image }}" width="75px"> </div>
+                                            <br><h3 class="h4">{{ mensaje.mensaje.cliente.nombre }}</h3>
+                                            {{ mensaje.mensaje.mensaje|safe }}
+                                        </div>
+                                    </div>
+                                {% endif %}
+
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    <div id="product-social" class="box social text-center mb-5 mt-5">
+                        <ul class="social list-inline">
+                            <li class="list-inline-item"><a href="##" data-animate-hover="pulse" class="email"><i
+                                    class="fa fa-envelope"></i></a></li>
+                            <li class="list-inline-item"> <h4>Puedes escribir una opinión sobre el producto</h4></li>
+                        </ul>
+
+
+                        <form action="{% url 'cli_enviar_mensaje' productoDetalle.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="row">
+                                <label>Motivo</label>
+                                {% render_field form.tipo_mensaje class="form-control" %}
+                            </div>
+                            <br>
+                            <br>
+                            <div class="row">
+                                <div class="input-append text-left">
+                                    <label>{{ form.mensaje.label }}</label>
+                                    <p>{% render_field form.mensaje class="form-control" %}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <button type="submit" class="btn btn-template-outlined-black"><i
+                                            class="fa fa-shopping-cart"></i> Enviar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <br>
+                                {% if message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+                                    <div class="alert alert-info" role="alert">
+                                        <p>{{ message }}</p>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            <div class="box text-uppercase mt-0 mb-small text-center">
+                                <h3>Quiza te interese algunos de estos productos</h3>
+                            </div>
+                        </div>
+                        {% for producto in productosInteres %}
+                            <div class="col-lg-4 col-md-6">
+                                <div class="product">
+                                    <div class="image"><a href="{% url 'cli_producto_detalle' producto.id %}"><img
+                                            src="{% static 'supermercado/img/' %}{{ producto.imagen }}" alt=""
+                                            class="img-fluid image1"></a></div>
+                                    <div class="text">
+                                        <h3 class="h5"><a
+                                                href="{% url 'cli_producto_detalle' producto.id %}">{{ producto.nombre }}</a>
+                                        </h3>
+                                        <p class="price text-justify"><i class="fa fa-users"></i> Precio: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;{{ producto.pvp|floatformat:2 }} €</p>
+                                        {% if producto.pvp_socio != 0 %}
+                                            <p class="price text-justify" style="color: mediumvioletred;"><span
+                                                    style="color: mediumvioletred"><i
+                                                    class="fa fa-id-card"></i> Precio Socio:</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{ producto.pvp_socio|floatformat:2  }}
+                                                €</p>
+                                        {% else %}
+                                            <p>&nbsp;</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script>
+        $('#producto').autocomplete({
+            source: "{% url 'cli_tienda_buscar' %}",
+            minLength: 2,
+        }).autocomplete("instance")._renderItem = function (ul, item) {
+            return $("<li>")
+                .append("<div><hr></div><a href='/tienda-producto-detalle/"+item.ident+"'><div class='text-muted'>" + item.descripcion_corta + "</div></a><br><a href='/tienda-producto-detalle/"+item.ident+"'><div><img src='{% static '/supermercado/img/'%}"+item.imagen+"' width='100px'></div></a>")
+                .appendTo(ul);
+        };
+    </script>
+{% include 'supermercado/public/general/footer.html' %}

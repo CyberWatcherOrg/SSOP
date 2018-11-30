@@ -1,0 +1,81 @@
+{% load static %}
+      <!-- Navbar Start-->
+      <header class="nav-holder make-sticky">
+        <div id="navbar" role="navigation" class="navbar navbar-expand-lg">
+          <div class="container"><a href="{% url 'index' %}" class="navbar-brand home"><img src="{% static 'supermercado/img/public/logo/logo.png' %}" width="110px" alt="Universal logo" class="d-none d-md-inline-block"><img src="{% static 'supermercado/img/public/logo/logo.png' %}" alt="Universal logo" class="d-inline-block d-md-none"><span class="sr-only">Universal - go to homepage</span></a>
+            <button type="button" data-toggle="collapse" data-target="#navigation" class="navbar-toggler btn-template-outlined"><span class="sr-only">Toggle navigation</span><i class="fa fa-align-justify"></i></button>
+            <div id="navigation" class="navbar-collapse collapse">
+              <ul class="nav navbar-nav ml-auto">
+                <li class="nav-item dropdown {% if request.session.cli_navbar_active == "inicio" %} active {% endif %}"><a href="javascript: void(0)" data-toggle="dropdown" class="dropdown-toggle">Inicio <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                      <li class="dropdown-item"><a href="{% url 'index' %}" class="nav-link">Principal</a></li>
+                    <li class="dropdown-item"><a href="{% url 'cli_tienda' %}" class="nav-link">Productos del supermercado</a></li>
+                    <li class="dropdown-item"><a href="{% url 'cli_tarjetaSocio' %}" class="nav-link">Como tener la tarjeta socio</a></li>
+                    <li class="dropdown-item"><a href="{% url 'cli_contacto' %}" class="nav-link">Contacto / Atención al cliente</a></li>
+                  </ul>
+                </li>
+                <li class="nav-item dropdown menu-large {% if request.session.cli_navbar_active == "tienda" %} active {% endif %}"><a href="#" data-toggle="dropdown" class="dropdown-toggle">Supermercado <b class="caret"></b></a>
+                  <ul class="dropdown-menu megamenu">
+                    <li>
+                      <div class="row">
+                        <div class="col-lg-6"><a href="{% url 'cli_tienda' %}"><img src="{% static 'supermercado/img/public/supermercado/supermercado.png' %}" alt="" class="img-fluid d-none d-lg-block"></a></div>
+                        <div class="col-lg-3 col-md-6">
+                          <h5>Categorias</h5>
+                          <ul class="list-unstyled mb-3">
+                              {% for categoria in categorias %}
+                                <li class="nav-item"><a href="{% url 'cli_tienda_categoria' categoria.id %}" class="nav-link">{{ categoria.nombre }}</a></li>
+                              {% endfor %}
+                          </ul>
+                        </div>
+                        <div class="col-lg-3 col-md-6">
+                          <h5>Contacto</h5>
+                          <ul class="list-unstyled mb-3">
+                            <li class="nav-item"><a href="{% url 'cli_contacto' %}" class="nav-link">Información</a></li>
+                          </ul>
+                            <h5>Tarjeta Socio</h5>
+                          <ul class="list-unstyled">
+                            <li class="nav-item"><a href="{% url 'cli_tarjetaSocio' %}" class="nav-link">Información de nuestra tarjeta socio</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+              <!-- ========== Contact dropdown ==================-->
+                <li class="nav-item dropdown {% if request.session.cli_navbar_active == "contacto" %} active {% endif %}"><a href="javascript: void(0)" data-toggle="dropdown" class="dropdown-toggle">Contacto <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                    <li class="dropdown-item"><a href="{% url 'cli_contacto' %}" class="nav-link">Contactar</a></li>
+                  </ul>
+                </li>
+                <!-- ========== Contact dropdown end ==================-->
+                <!-- ========== Carrito dropdown ==================-->
+                <li class="nav-item dropdown {% if request.session.cli_navbar_active == "carrito" %} active {% endif %}"><a href="javascript: void(0)" data-toggle="dropdown" class="dropdown-toggle">Mi Cuenta <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                      {% if request.session.isA == 0 and request.session.isA != -1 and request.session.isA != 1 %}
+                        <li class="dropdown-item"><a href="{% url 'cli_carrito' %}" class="nav-link">Detalles Carrito</a></li>
+                        <li class="dropdown-item"><a href="{% url 'cli_menu' %}" class="nav-link">Mi perfil</a></li>
+                          <li class="dropdown-item"><a href="{% url 'logout_cli' %}" class="nav-link">Salir</a></li>
+                          {% else %}
+                          <li class="dropdown-item"><a href="{% url 'register' %}" class="nav-link">Iniciar Sesión / Registrarse</a></li>
+                      {% endif %}
+                  </ul>
+                </li>
+                <!-- ========== Carrito dropdown end ==================-->
+              <!-- ========== Carrito dropdown ==================-->
+                <li><a href="{% url 'cli_carrito' %}" ><i class="fa fa-shopping-cart"></i> {% if request.session.cli_carrito_cantidad > 0 %}({{ request.session.cli_carrito_cantidad }}){% endif %} </a>
+                </li>
+                <!-- ========== Carrito dropdown end ==================-->
+              </ul>
+            </div>
+            <div id="search" class="collapse clearfix">
+              <form role="search" class="navbar-form">
+                <div class="input-group">
+                  <input type="text" placeholder="Search" class="form-control"><span class="input-group-btn">
+                    <button type="submit" class="btn btn-template-main"><i class="fa fa-search"></i></button></span>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </header>
+      <!-- Navbar End-->
