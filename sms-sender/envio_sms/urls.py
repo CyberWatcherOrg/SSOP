@@ -18,5 +18,5 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.render_index, name="index"),
-    url(r'send_sms/$', views.send_sms, name="send_sms"),
+    url(r'enviar-mensaje/$', views.enviar_mensaje, name="enviar-mensaje"),
 ]

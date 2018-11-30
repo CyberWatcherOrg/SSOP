@@ -5,7 +5,7 @@
     <title>Envio de sms</title>
 </head>
 <body>
-<form action="{% url 'send_sms' %}" method="post">
+<form action="{% url 'enviar-mensaje' %}" method="post">
     {% csrf_token %}
     <label for="numero">Número de teléfono</label>
     <input id="numero" name="numero" type="number">
