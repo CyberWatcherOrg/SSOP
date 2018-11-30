@@ -11,7 +11,7 @@ The main platform where registration and authentication process occurs.
 envio_moviles is a webapp to send SMS. It's a standalone platform to send SMS to the SSOP's users to authenticate them during the login
 process, so it will be integrated in the SSOP workflow. 
 
-It manages SMS sending to the users. We are using [Twilio]{https://www.twilio.com) library that permits send
+It manages SMS sending to the users. We are using [Twilio](https://www.twilio.com) library that permits send
 free SMS to registered destinations (phone numbers). It's fully useful to make a use case with some of our phone numbers.
 
 ## supermercado
