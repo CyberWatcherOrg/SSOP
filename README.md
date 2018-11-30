@@ -1,6 +1,6 @@
 # SSOP (Safe & Secure Owner Password)
 
-## ssop*
+## ssop
 Nuestra plataforma
 
 ## Presentación PPT y PDF
