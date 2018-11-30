@@ -1,11 +1,11 @@
 # SSOP (Safe & Secure Owner Password)
 
-**__ssop__**
+## ssop*
 Nuestra plataforma
 
-**__Presentación PPT y PDF__**
+## Presentación PPT y PDF
 *   https://github.com/CyberWatcherOrg/SSOP/tree/master/Presentacion_Hackathon
 
-**__supermercado__**
+## supermercado
 Es la web de prueba que usaremos para conectar con nuestra plataforma.
 Pertenece a un desarrollo propio pero anterior al hackathon. Aqui sólo añadiremos los cambios que permitan la conexión con ssop
