@@ -24,7 +24,8 @@ SSOP is a 2-factors authentication and identity manager platform. Any user can r
 
 ## Requirements
 
-* Python >= 3.xa
+* Python >= 3.x
+* PIP utiliy installer for Python
 * Django 1.11.8
 * Some Python libraries:
   * [django-oidc-provider](https://github.com/juanifioren/django-oidc-provider) module
@@ -39,9 +40,13 @@ user@machine:$ pip3 install twilio django-oidc-provider django-rest-framework
 
 ## Installation
 
+To install **SSOP** you can clone this repository and access to the **ssop2** folder. Then, you are able to run the website. At this moment
+, because **SSOP** is in a premature state of development, it's using a SQLite database so you don't need to install any database management
+to testing purpose.
+
 ## Usage
 
-You must to run the site:
+You have to to run the site (by default it will be waiting in the 8000 port):
 
 ```bash
 user@machine:$ python3 manage.py runserver
@@ -53,6 +58,6 @@ user@machine:$ python3 manage.py runserver
 
 ## Authors
 
-Miguel Ángel Langarita <miguel.angel.langarita@gmail.com>
-Javier Manrique <jmanriquepellejero@gmail.com>
-Santiago Faci <santiago.faci@gmail.com>
+* Miguel Ángel Langarita <miguel.angel.langarita@gmail.com>
+* Javier Manrique <jmanriquepellejero@gmail.com>
+* Santiago Faci <santiago.faci@gmail.com>
