@@ -1,6 +1,6 @@
 from django import forms
 
-from ssop_app.models import User, Company
+from ssop_app.models import User, Company, SMSMessage
 
 
 class UserForm(forms.ModelForm):
@@ -13,3 +13,9 @@ class CompanyForm(forms.ModelForm):
         fields = ('cif', 'comercial_name', 'official_name', 'address', 'city', 'province',
                   'phone', 'email', 'contact_name', 'contact_surname')
         model = Company
+
+
+class SMSForm(forms.ModelForm):
+    class Meta:
+        fields = ('number',)
+        model = SMSMessage

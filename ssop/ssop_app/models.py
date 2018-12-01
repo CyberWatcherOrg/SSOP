@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class User(models.Model):
     dni = models.CharField(max_length=9, null=True)
     name = models.CharField(max_length=50, null=True)
@@ -26,3 +27,6 @@ class Company(models.Model):
     contact_name = models.CharField(max_length=50)
     contact_surname = models.CharField(max_length=50)
 
+
+class SMSMessage(models.Model):
+    number = models.CharField(max_length=20)
