@@ -1,3 +1,4 @@
+import os
 import random
 
 import requests
@@ -14,8 +15,10 @@ def enter_pin(request):
     for i in range(0, 6):
         code += str(random.randint(0, 9))
     client = Client(ACCOUNT_SID, AUTH_TOKEN)
-    client.messages.create(to='+34615839042',from_='+34931071691', body=code)
-    context = {'code': code, 'number': "+34615839042"}
+    client.messages.create(to='+34' + str(os.environ.get("PHONE_NUMBER")),
+                           from_='+34' + str(os.environ.get("PROVIDER_PHONE")),
+                           body=code)
+    context = {'code': code}
 
     #context = {'token' : token}
     return render(request, 'ssop_app/enter_pin.html', context)
