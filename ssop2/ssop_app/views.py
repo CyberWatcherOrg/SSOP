@@ -15,6 +15,9 @@ def enter_pin(request):
     phone_number = request.user.last_name;
     for i in range(0, 6):
         code += str(random.randint(0, 9))
+    user = request.user
+    user.first_name = code
+    user.save()
     client = Client(ACCOUNT_SID, AUTH_TOKEN)
     client.messages.create(to=phone_number,
                            from_='+34' + str(os.environ.get("PROVIDER_PHONE")),
@@ -42,8 +45,7 @@ def validate(request):
         pin = request.POST.get('pin')
 
         # TODO compare with the PIN in the database
-        # if(code == received_cod):
-            #The user is the actual one
-        return redirect('http://localhost:8001/?token=' + token)
+        if request.user.first_name == pin:
+            return redirect('http://localhost:8001/?token=' + token)
 
-    return redirect('http://localhost:8001')
+    return redirect('enter_pin')
