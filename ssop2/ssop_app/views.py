@@ -12,10 +12,11 @@ def enter_pin(request):
     #token = request.GET.get('token')
 
     code = ''
+    phone_number = request.user.last_name;
     for i in range(0, 6):
         code += str(random.randint(0, 9))
     client = Client(ACCOUNT_SID, AUTH_TOKEN)
-    client.messages.create(to='+34' + str(os.environ.get("PHONE_NUMBER")),
+    client.messages.create(to=phone_number,
                            from_='+34' + str(os.environ.get("PROVIDER_PHONE")),
                            body=code)
     context = {'code': code}
