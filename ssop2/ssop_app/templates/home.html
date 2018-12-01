@@ -5,7 +5,7 @@
 
 <section>
     <div class="container">
-        <h1 class="jumbotron-heading">{% trans 'SSOP Manager' %}{% if user.is_authenticated %} {{ user.username }}{% endif %}</h1>
+        <h1 class="jumbotron-heading">{% trans 'SSOP Manager' %}{% if user.is_authenticated %} Usuario: {{ user.username }}{% endif %}</h1>
         <p><a href="{% url 'admin:index' %}" class="btn btn-primary btn-lg">{% trans 'Administrar' %}</a></p>
     </div>
 </section>

@@ -28,4 +28,5 @@ urlpatterns = [
     url(r'^accounts/logout/$', auth_views.logout, {'next_page': '/'}, name='logout'),
     url(r'^', include('oidc_provider.urls', namespace='oidc_provider')),
     url(r'^admin/', admin.site.urls),
+    url('^', include("ssop_app.urls")),
 ]

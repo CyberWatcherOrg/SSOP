@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>SSOP</title>
+</head>
+<body>
+<h1>PIN Verification</h1>
+<div>
+    <div id="phone-code-keyboard"></div>
+   <form action="{% url 'validate' %}" method="post">
+       {% csrf_token %}
+       <input name="pin" id="pin" type="text">
+       <input type="hidden" id="token" name="token"/>
+       <input type="submit">
+   </form>
+</div>
+</body>
+
+<script type="text/javascript">
+    url_parameters = window.location.hash.substr(1);
+    parameters = url_parameters.split("&")
+    tokens = parameters[0].split("=");
+    token = tokens[1];
+    document.getElementById("token").value = token;
+</script>
+
+<script>
+   //It is executed once the webpage is loaded
+   onload(loadKeyboards());
+
+   //It loads all the page's keyboards
+   function loadKeyboards() {
+       createKeyboard(document.getElementById("phone-code-keyboard"), 2)
+   }
+
+   //It creates a keyboard in the specified DOM
+   function createKeyboard(keyboard, valueField) {
+       var numbers = [];
+       var randomNumbers = [];
+       //numbers vector is orderly filled with values from 0 to 9
+       for (var i = 0; i <= 9; i++) {
+           numbers[i] = i;
+       }
+       //This loop is executed as long as there are numbers to fill the randomly ordered vector
+       while (true) {
+           var number = parseInt(Math.random() * 10);
+           var contained = false;
+           //Once all numbers have been inserted, it breaks
+           if (randomNumbers.length === 10) {
+               break;
+           }
+           //It checks if the randomly generated number is contained within the other vector or not
+           for (var i = 0; i < randomNumbers.length; i++) {
+               if (randomNumbers[i] === number) {
+                   contained = true;
+               }
+           }
+           //If the first vector doesn't contain the randomly generated number, it is added
+           if (!contained) {
+               randomNumbers.push(number);
+           }
+       }
+       //It goes along the whole of the randomNumbers array to create buttons with its values
+       for (var i = 0; i < randomNumbers.length; i++) {
+           if (valueField == 2) {
+               keyboard.innerHTML = keyboard.innerHTML + "<button onclick='addPhoneKeyboardValue(" + randomNumbers[i] + ")'>" +
+                   randomNumbers[i] +
+                   "</button>";
+           }
+           //It defines leap between on line and the other every 3 buttons
+           if (i === 2 || i === 5 || i === 8) {
+               keyboard.innerHTML = keyboard.innerHTML + "<br>";
+           }
+       }
+   }
+
+   //It adds a value to the phone code field
+   function addPhoneKeyboardValue(value) {
+       var field = document.getElementById("pin");
+       field.value += value;
+   }
+</script>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enter PIN Verification</title>
+</head>
+<body>
+<h5>Introduce el PIN que ha sido enviado a tu móvil</h5>
+<form action="{% url 'send_pin' %}" method="get">
+    <input type="text" id="pin" name="pin">
+    <input type="hidden" id="token" name="token"/>
+    <input type="submit" value="Enviar"/>
+</form>
+<script type="text/javascript">
+    url_parameters = window.location.hash.substr(1);
+    parameters = url_parameters.split("&")
+    tokens = parameters[0].split("=");
+    token = tokens[1];
+    document.getElementById("token").value = token;
+</script>
+</body>
+</html>

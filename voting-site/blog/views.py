@@ -1,7 +1,7 @@
 from django.shortcuts import render
 
-# Create your views here.
-
-
 def render_index(request):
-    return render(request, "blog/index.html")
+    token = request.GET.get('token')
+    print(token)
+    context = {'token' : token}
+    return render(request, "blog/index.html", context)

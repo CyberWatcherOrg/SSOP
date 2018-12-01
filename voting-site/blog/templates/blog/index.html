@@ -1,6 +1,5 @@
 {% load static %}
 
-<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -9,23 +8,81 @@
     <meta name="author" content="">
     <link rel="icon" href="../../../../favicon.ico">
 
-    <title>Jumbotron Template for Bootstrap</title>
+    <title>Cybervotación</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{% static "blog/css/bootstrap.css" %}" rel="stylesheet">
+    <link href="{% static 'blog/css/bootstrap.css' %}" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="{% static "blog/css/jumbotron.css" %}" rel="stylesheet">
+    <link href="{% static 'blog/css/jumbotron.css' %}" rel="stylesheet">
   </head>
 
   <body>
 
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
       <a class="navbar-brand" href="#">Sistema de votación segura ofrecida por SSOP</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+        {% if not token %}
+        <button id="login-button">Iniciar Sesión</button>
+        {% else %}
+        <button id="logout-button">Cerrar Sesión</button>
+        {% endif %}
     </nav>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://www.sakimura.org/test/openidconnect.js"></script>
+
+    <script type="text/javascript">
+    $(function() {
+        var clientInfo = {
+            client_id : '604936',
+            redirect_uri : 'http://localhost:8000/ssop_app/enter_pin'
+        };
+
+        OIDC.setClientInfo(clientInfo);
+
+        var providerInfo = OIDC.discover('http://localhost:8000');
+
+        OIDC.setProviderInfo(providerInfo);
+        OIDC.storeInfo(providerInfo, clientInfo);
+
+        // Restore configuration information.
+        OIDC.restoreInfo();
+
+        // Get Access Token
+        /*var token = OIDC.getAccessToken();
+
+
+        if (token !== null) {
+            //document.getElementById('login-button').disabled = true;
+            //document.getElementById('login-button').innerHTML = 'Cerrar Sesión';
+            //var allButtons = document.getElementsByClassName('btn btn-primary btn-lg');
+            //for (var i = 0; i < allButtons.length; i++) {
+            //    allButtons[i].disabled = false;
+            //}
+        }
+        */
+        // Make userinfo request using access_token.
+        /*if (token !== null) {
+            jQuery.get('http://localhost:8000/userinfo/?access_token='+token, function( data ) {
+                alert('USERINFO: '+ JSON.stringify(data));
+            });
+        }*/
+
+        // Make an authorization request if the user click the login button.
+        $('#login-button').click(function (event) {
+            if ($('this').innerHTML === 'Cerrar Sesión') {
+                OIDC.logout();
+            }
+            else {
+                OIDC.login({
+                    scope: 'email',
+                    response_type: 'token'
+                });
+            }
+        });
+
+    });
+    </script>
 
     <main role="main">
 
@@ -44,99 +101,99 @@
                 <h2>Cyberwatcher</h2>
                 <h4>SSOP</h4>
                 <h6>01-12-2018</h6>
-                <img src="{% static "blog/img/cybercamp.jpg" %}" alt="" style="height: 200px; width: 200px;">
-                <button class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
+                <img src="{% static 'blog/img/cybercamp.jpg' %}" alt="" style="height: 200px; width: 200px;">
+                <button {% if not token %} disabled {% endif %} class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
               </div>
               <div class="col-md-4">
                 <h2>UVaNoobs</h2>
                 <h4>BlueFingerprint</h4>
                 <h6>01-12-2018</h6>
-                <img src="{% static "blog/img/cybercamp.jpg" %}" alt="" style="height: 200px; width: 200px;">
-                  <button class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
+                <img src="{% static 'blog/img/cybercamp.jpg' %}" alt="" style="height: 200px; width: 200px;">
+                  <button {% if not token %} disabled {% endif %} class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
               </div>
               <div class="col-md-4">
                 <h2>Raul14</h2>
                 <h4>ABLEx</h4>
                 <h6>01-12-2018</h6>
-                <img src="{% static "blog/img/cybercamp.jpg" %}" alt="" style="height: 200px; width: 200px;">
-                  <button class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
+                <img src="{% static 'blog/img/cybercamp.jpg' %}" alt="" style="height: 200px; width: 200px;">
+                  <button {% if not token %} disabled {% endif %} class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
               </div>
               <div class="col-md-4">
                 <h2>zebenet</h2>
                 <h4>SmartDDoSFilter</h4>
                 <h6>01-12-2018</h6>
-                <img src="{% static "blog/img/cybercamp.jpg" %}" alt="" style="height: 200px; width: 200px;">
-                <button class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
+                <img src="{% static 'blog/img/cybercamp.jpg' %}" alt="" style="height: 200px; width: 200px;">
+                <button {% if not token %} disabled {% endif %} class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
               </div>
               <div class="col-md-4">
                 <h2>IoT-Vigilant</h2>
                 <h4>iotvigilant-cybercamp-2018</h4>
                 <h6>01-12-2018</h6>
-                <img src="{% static "blog/img/cybercamp.jpg" %}" alt="" style="height: 200px; width: 200px;">
-                <button class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
+                <img src="{% static 'blog/img/cybercamp.jpg' %}" alt="" style="height: 200px; width: 200px;">
+                <button {% if not token %} disabled {% endif %} class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
             </div>
             <div class="col-md-4">
                 <h2>assap-org</h2>
                 <h4>assap</h4>
                 <h6>01-12-2018</h6>
-                <img src="{% static "blog/img/cybercamp.jpg" %}" alt="" style="height: 200px; width: 200px;">
-                <button class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
+                <img src="{% static 'blog/img/cybercamp.jpg' %}" alt="" style="height: 200px; width: 200px;">
+                <button {% if not token %} disabled {% endif %} class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
             </div>
             <div class="col-md-4">
                 <h2>cybercamp18isecurity</h2>
                 <h4>iSecurity</h4>
                 <h6>01-12-2018</h6>
-                <img src="{% static "blog/img/cybercamp.jpg" %}" alt="" style="height: 200px; width: 200px;">
-                <button class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
+                <img src="{% static 'blog/img/cybercamp.jpg' %}" alt="" style="height: 200px; width: 200px;">
+                <button {% if not token %} disabled {% endif %} class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
             </div>
             <div class="col-md-4">
                 <h2>lolcathost</h2>
                 <h4>enitsda</h4>
                 <h6>01-12-2018</h6>
-                <img src="{% static "blog/img/cybercamp.jpg" %}" alt="" style="height: 200px; width: 200px;">
-                <button class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
+                <img src="{% static 'blog/img/cybercamp.jpg' %}" alt="" style="height: 200px; width: 200px;">
+                <button {% if not token %} disabled {% endif %} class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
             </div>
             <div class="col-md-4">
                 <h2>T1GR3S</h2>
                 <h4>airo-Heat</h4>
                 <h6>01-12-2018</h6>
-                <img src="{% static "blog/img/cybercamp.jpg" %}" alt="" style="height: 200px; width: 200px;">
-                <button class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
+                <img src="{% static 'blog/img/cybercamp.jpg' %}" alt="" style="height: 200px; width: 200px;">
+                <button {% if not token %} disabled {% endif %} class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
             </div>
             <div class="col-md-4">
                 <h2>vrandkode</h2>
                 <h4>stuk</h4>
                 <h6>01-12-2018</h6>
-                <img src="{% static "blog/img/cybercamp.jpg" %}" alt="" style="height: 200px; width: 200px;">
-                <button class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
+                <img src="{% static 'blog/img/cybercamp.jpg' %}" alt="" style="height: 200px; width: 200px;">
+                <button {% if not token %} disabled {% endif %} class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
             </div>
             <div class="col-md-4">
                 <h2>s3curitybug</h2>
                 <h4>guardedbox</h4>
                 <h6>01-12-2018</h6>
-                <img src="{% static "blog/img/cybercamp.jpg" %}" alt="" style="height: 200px; width: 200px;">
-                <button class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
+                <img src="{% static 'blog/img/cybercamp.jpg' %}" alt="" style="height: 200px; width: 200px;">
+                <button {% if not token %} disabled {% endif %} class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
             </div>
             <div class="col-md-4">
                 <h2>zionsSpartans</h2>
                 <h4>wall-do-hackathon</h4>
                 <h6>01-12-2018</h6>
-                <img src="{% static "blog/img/cybercamp.jpg" %}" alt="" style="height: 200px; width: 200px;">
-                <button class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
+                <img src="{% static 'blog/img/cybercamp.jpg' %}" alt="" style="height: 200px; width: 200px;">
+                <button {% if not token %} disabled {% endif %} class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
             </div>
             <div class="col-md-4">
                 <h2>DarkAnHell</h2>
                 <h4>FastPhish</h4>
                 <h6>01-12-2018</h6>
-                <img src="{% static "blog/img/cybercamp.jpg" %}" alt="" style="height: 200px; width: 200px;">
-                <button class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
+                <img src="{% static 'blog/img/cybercamp.jpg' %}" alt="" style="height: 200px; width: 200px;">
+                <button {% if not token %} disabled {% endif %} class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
             </div>
             <div class="col-md-4">
                 <h2>onticsoluciones</h2>
                 <h4>iuris</h4>
                 <h6>01-12-2018</h6>
-                <img src="{% static "blog/img/cybercamp.jpg" %}" alt="" style="height: 200px; width: 200px;">
-                <button class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
+                <img src="{% static 'blog/img/cybercamp.jpg' %}" alt="" style="height: 200px; width: 200px;">
+                <button {% if not token %} disabled {% endif %} class="btn btn-primary btn-lg" style="margin-top: 20px; margin-bottom: 40px;">Votar</button>
             </div>
             </div>
           </div>
@@ -147,15 +204,9 @@
     </main>
 
     <footer class="container">
-      <p>&copy; Company 2017</p>
+      <p>&copy; CyberWatcher 2018</p>
     </footer>
 
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>window.jQuery || document.write('<script src="../../../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
-    <script src="../../../../assets/js/vendor/popper.min.js"></script>
-    <script src="../../../../dist/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
   </body>
 </html>
